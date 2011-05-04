@@ -28,7 +28,7 @@ var dmz =
    , prevButton = webForm.lookup("prevButton")
    , currLabel = webForm.lookup("currentLabel")
    , totalLabel = webForm.lookup("totalLabel")
-//   , webpage = dmz.ui.webview.create()
+   , webpage = dmz.ui.webview.create()
 
    // Variables
    , CurrentIndex = 0
@@ -64,7 +64,7 @@ loadCurrent = function () {
 
          if (NewSource) {
 
-//            webpage.page().mainFrame().load(item.source);
+            webpage.page().mainFrame().load(item.source);
             NewSource = false;
             linkHandle = dmz.object.linkHandle(dmz.stance.ViewedNewspaperHandle, hil, item.handle);
             if (!linkHandle) {
@@ -104,7 +104,7 @@ skipBackward = function () {
 
 (function () {
 
-//   webForm.lookup("vLayout").addWidget(webpage);
+   webForm.lookup("vLayout").addWidget(webpage);
    nextButton.standardIcon(dmz.ui.button.MediaSkipForward);
    prevButton.standardIcon(dmz.ui.button.MediaSkipBackward);
 }());
