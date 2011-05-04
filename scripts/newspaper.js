@@ -43,6 +43,8 @@ var dmz =
    , setUserPlayList
    ;
 
+self.shutdown = function () { webpage.stop(); }
+
 dmz.object.link.observe(self, dmz.stance.ViewedNewspaperHandle,
 function (linkObjHandle, attrHandle, userHandle, mediaHandle) {
 
