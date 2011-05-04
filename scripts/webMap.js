@@ -534,8 +534,8 @@ dmz.module.subscribe(self, "main", function (Mode, module) {
       module.addPage("Map", map, mapClickFn, mapHomeFn);
       setWebViewMessage.send();
       page = map.page();
-      page.mainFrame().load(self.config.string("url.name"));
-      page.linkDelegation(dmz.ui.webview.DelegateAllLinks);
+//      page.mainFrame().load(self.config.string("url.name"));
+//      page.linkDelegation(dmz.ui.webview.DelegateAllLinks);
 
       browser = dmz.ui.webview.create();
       browserDialog.lookup("verticalLayout").addWidget(browser);
@@ -544,7 +544,7 @@ dmz.module.subscribe(self, "main", function (Mode, module) {
       map.observe(self, "linkClicked", function (urlString) {
 
          // Open browser dialog.
-         browser.page().mainFrame().load(urlString);
+//         browser.page().mainFrame().load(urlString);
          browserDialog.open(self, function () {});
       });
       if (list) { Object.keys(list).forEach(function (str) { module.highlight(str); }); }
