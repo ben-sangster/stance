@@ -154,7 +154,7 @@ skipBackward = function () {
    stopButton.standardIcon(dmz.ui.button.MediaStop);
    nextButton.standardIcon(dmz.ui.button.MediaSkipForward);
    prevButton.standardIcon(dmz.ui.button.MediaSkipBackward);
-//   dmz.ui.phonon.createPath(source, video);
+   dmz.ui.phonon.createPath(source, video);
 
 }());
 
@@ -163,7 +163,7 @@ pauseButton.observe(self, "clicked", pauseCurrent);
 stopButton.observe(self, "clicked", stopCurrent);
 nextButton.observe(self, "clicked", skipForward);
 prevButton.observe(self, "clicked", skipBackward);
-//source.observe(self, "finished", skipForward);
+source.observe(self, "finished", skipForward);
 
 setUserPlayList = function (userHandle) {
 
