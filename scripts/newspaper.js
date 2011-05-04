@@ -43,8 +43,6 @@ var dmz =
    , setUserPlayList
    ;
 
-self.shutdown = function () { dmz.ui.webview.cleanWebPages(); }
-
 dmz.object.link.observe(self, dmz.stance.ViewedNewspaperHandle,
 function (linkObjHandle, attrHandle, userHandle, mediaHandle) {
 
@@ -66,7 +64,8 @@ loadCurrent = function () {
 
          if (NewSource) {
 
-            webpage.page().mainFrame().load(item.source);
+//            webpage.page().mainFrame().load(item.source);
+            webpage.frameLoad(item.source);
             NewSource = false;
             linkHandle = dmz.object.linkHandle(dmz.stance.ViewedNewspaperHandle, hil, item.handle);
             if (!linkHandle) {
