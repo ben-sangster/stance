@@ -31,32 +31,22 @@ var dmz =
    }
 
    // UI Elements
-   , graphWindow = dmz.ui.loader.load("AARForm.ui")
+   , graphWindow = dmz.ui.loader.load("VoteAARForm.ui")
    , graphWindowScene = -1
    , graphicsView = graphWindow.lookup("aarGraphicsView")
-   , groupViewTypeList = graphWindow.lookup("groupViewTypeList")
-   , groupList = graphWindow.lookup("groupList")
-   , userLayout = graphWindow.lookup("userLayout")
-   , groupLayout = graphWindow.lookup("groupLayout")
-   , objectTypeLayout = graphWindow.lookup("objectTypeLayout")
-   , stackedWidget = graphWindow.lookup("stackedWidget")
    , intervalAmtBox = graphWindow.lookup("intervalAmtBox")
    , intervalTypeBox = graphWindow.lookup("intervalTypeBox")
-//   , startDateBox = graphWindow.lookup("startDate")
-//   , endDateBox = graphWindow.lookup("endDate")
 
    , graphDialog = dmz.ui.loader.load("AARDialog.ui", graphWindow)
    , scrollArea = graphDialog.lookup("scrollArea")
    , scrollLayout = dmz.ui.layout.createVBoxLayout()
 
    // Consts
-   , StdBox =
-        { x: 0
-        , y: 0
-        , w: 80
-        , h: -80
-        , space: 5
-        }
+   , BOX_X = 0
+   , BOX_Y = 0
+   , BOX_WIDTH = 80
+   , BOX_HEIGHT = -80
+   , BOX_SPACE = 5
    , Font = { font: "Times", size: 30, weight: 75 }
    , ObjectTypeList =
         [ dmz.stance.CommentType
@@ -605,21 +595,21 @@ createBoxObj = function (handle, x, y, parent) {
          }
          else { brush = ObjectTypeData[type].brush; }
 
-         result.box = dmz.ui.graph.createRectItem(StdBox.x, StdBox.y, StdBox.w, StdBox.h, parent);
+         result.box = dmz.ui.graph.createRectItem(BOX_X, BOX_Y, BOX_WIDTH, BOX_HEIGHT, parent);
          result.box.brush(brush);
          result.box.pos(x, y);
          result.box.data(HandleIndex, result.handles);
          if (result.box) {
 
             result.label = dmz.ui.graph.createTextItem(label, result.box);
-            result.label.pos(0, StdBox.h);
+            result.label.pos(0, BOX_HEIGHT);
             result.label.font(Font)
 
             if (count) {
 
                result.countLabel = dmz.ui.graph.createTextItem(count.toString(), result.box);
                result.countLabel.font(Font);
-               result.countLabel.pos(0, StdBox.h / 2);
+               result.countLabel.pos(0, BOX_HEIGHT / 2);
             }
          }
          masterData.events[handle] = result;
@@ -714,12 +704,12 @@ setGraph = function (graphType, activeObjectTypes, yAxisItems, startDate, endDat
       var text = dmz.stance.getDisplayName(handle)
         , rect
         ;
-      yAxisMap[handle] = { height: index * StdBox.h, tooltip: text };
+      yAxisMap[handle] = { height: index * BOX_HEIGHT, tooltip: text };
       text = graphWindowScene.addText(text);
       text.font(Font);
       rect = text.boundingRect();
       longestTitle = (rect.width > longestTitle) ? rect.width : longestTitle;
-      text.pos(0, yAxisMap[handle].height + StdBox.h);
+      text.pos(0, yAxisMap[handle].height + BOX_HEIGHT);
       yAxisMap[handle].lastBox = text;
       yAxisMap[handle].label = text;
    });
@@ -727,7 +717,7 @@ setGraph = function (graphType, activeObjectTypes, yAxisItems, startDate, endDat
    StartX = longestTitle + 10;
    XAxis = createHLine(StartX, 0, 200);
    graphWindowScene.addItem(XAxis);
-   intervalLineFnc = function (x) { return createVLine(x, 0, -((yAxisItems.length + 1) * StdBox.h)); }
+   intervalLineFnc = function (x) { return createVLine(x, 0, -((yAxisItems.length + 1) * BOX_HEIGHT)); }
    YAxis = intervalLineFnc(StartX);
    item = dmz.ui.graph.createTextItem(startDate.toString(dmz.stance.TIME_FORMAT), YAxis);
    item.font(Font);
@@ -774,7 +764,7 @@ setGraph = function (graphType, activeObjectTypes, yAxisItems, startDate, endDat
          if (item.createdAt.isBefore(nextDate)) {
 
             addedBox = false;
-            x = boxCount * (StdBox.w + StdBox.space) + StartX;
+            x = boxCount * (BOX_WIDTH + BOX_SPACE) + StartX;
             item.links.forEach(function (handle) {
 
                var lineItem
@@ -812,11 +802,11 @@ setGraph = function (graphType, activeObjectTypes, yAxisItems, startDate, endDat
       // Create vert line to mark end of interval
       if (!boxInInterval) { boxCount += 1; }
       boxInInterval = false;
-      intervalLine = intervalLineFnc(boxCount * (StdBox.w + StdBox.space) + StartX);
+      intervalLine = intervalLineFnc(boxCount * (BOX_WIDTH + BOX_SPACE) + StartX);
       item = dmz.ui.graph.createTextItem(nextDate.toString(dmz.stance.TIME_FORMAT), intervalLine);
       item.font(Font);
       item.rotation(rotationAmt);
-      item.pos(boxCount * (StdBox.w + StdBox.space) + StartX, 0);
+      item.pos(boxCount * (BOX_WIDTH + BOX_SPACE) + StartX, 0);
       graphWindowScene.addItem(intervalLine);
       interval.push(intervalLine);
       currDate = nextDate;
@@ -831,14 +821,14 @@ setGraph = function (graphType, activeObjectTypes, yAxisItems, startDate, endDat
         , line
         ;
 
-      line = createHLine(0, data.height + (StdBox.h / 2), boxCount * (StdBox.w + StdBox.space) + StartX);
+      line = createHLine(0, data.height + (BOX_HEIGHT / 2), boxCount * (BOX_WIDTH + BOX_SPACE) + StartX);
       line.z(-1);
       line.acceptHoverEvents(true);
       line.toolTip(data.tooltip);
       graphWindowScene.addItem(line);
    });
    xLine = XAxis.line();
-   xLine.x2 = (x ? x : xLine.x2) + (StdBox.w * 2);
+   xLine.x2 = (x ? x : xLine.x2) + (BOX_WIDTH * 2);
    XAxis.line(xLine);
 };
 
