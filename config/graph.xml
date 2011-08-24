@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dmz>
 <javascript>
-   <instance name="graph"/>
+<!--   <instance name="graph"/> -->
+   <instance name="voteAAR"/>
 </javascript>
 <runtime>
    <message name="GenerateAAR"/>
@@ -24,6 +25,9 @@
       <pin name="Riot.png" value="Riot"/>
    </map-pins>
 </graph>
+<voteAAR>
+   <aarmessage name="GenerateAAR"/>
+</voteAAR>
 <gameCreation>
    <aarmessage name="GenerateAAR"/>
 </gameCreation>
