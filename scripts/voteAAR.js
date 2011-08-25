@@ -239,7 +239,7 @@ dmz.object.create.observe(self, function (handle, type) {
       master.groups.push(obj);
 //      labelLayout.addWidget(label);
       gridLayout.addWidget(label, 0, obj.index);
-      gridLayout.columnMinimumWidth(obj.index, 300);
+      gridLayout.columnMinimumWidth(obj.index, 275);
    }
    else if (type.isOfType(dmz.stance.GameType)) { master.game = handle; }
 });
