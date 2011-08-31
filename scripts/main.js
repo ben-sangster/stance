@@ -283,20 +283,20 @@ mouseEvent = function (object, event) {
 //                           data.dialog.move(0, 0);
 //                        }
                      }
-                     data.dialog.open(self, function (value) {
+//                     data.dialog.open(self, function (value) {
 
-                        if (data.highlight) { data.highlight.hide(); }
-                        if (data.onHome) { data.onHome(value); }
-                     });
-
-//                     dmz.time.setTimer(self, function () {
-
-//                        data.dialog.open(self, function (value) {
-
-//                           if (data.highlight) { data.highlight.hide(); }
-//                           if (data.onHome) { data.onHome(value); }
-//                        });
+//                        if (data.highlight) { data.highlight.hide(); }
+//                        if (data.onHome) { data.onHome(value); }
 //                     });
+
+                     dmz.time.setTimer(self, function () {
+
+                        data.dialog.open(self, function (value) {
+
+                           if (data.highlight) { data.highlight.hide(); }
+                           if (data.onHome) { data.onHome(value); }
+                        });
+                     });
                   });
                }
                else if (data.widget && stackedWidget) {
