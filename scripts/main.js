@@ -279,6 +279,7 @@ mouseEvent = function (object, event) {
 //                        data.dialog.update();
                         data.widget.update();
                         data.widget.updateGeometry();
+                        data.widget.move(0,0);
 //                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
 
 //                           data.dialog.move(0, 0);
