@@ -274,25 +274,29 @@ mouseEvent = function (object, event) {
                      }
                      if (rect.width && rect.height) {
 
+                        data.dialog.maximumSize(rect.width * 0.95, rect.height * 0.95);
                         data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
 //                        data.dialog.updateGeometry();
 //                        data.dialog.update();
-                        data.widget.update();
-                        data.widget.updateGeometry();
-                        data.widget.move(0,0);
 //                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
 
 //                           data.dialog.move(0, 0);
 //                        }
                      }
-                     dmz.time.setTimer(self, function () {
+                     data.dialog.open(self, function (value) {
 
-                        data.dialog.open(self, function (value) {
-
-                           if (data.highlight) { data.highlight.hide(); }
-                           if (data.onHome) { data.onHome(value); }
-                        });
+                        if (data.highlight) { data.highlight.hide(); }
+                        if (data.onHome) { data.onHome(value); }
                      });
+
+//                     dmz.time.setTimer(self, function () {
+
+//                        data.dialog.open(self, function (value) {
+
+//                           if (data.highlight) { data.highlight.hide(); }
+//                           if (data.onHome) { data.onHome(value); }
+//                        });
+//                     });
                   });
                }
                else if (data.widget && stackedWidget) {
