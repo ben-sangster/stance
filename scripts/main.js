@@ -275,6 +275,7 @@ mouseEvent = function (object, event) {
                      if (rect.width && rect.height) {
 
                         data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
+                        data.dialog.update();
                      }
                      data.dialog.open(self, function (value) {
 
@@ -469,6 +470,10 @@ _exports.addPage = function (name, widget, func, onHome) {
 
          dialog = dmz.ui.loader.load("WindowDialog.ui", dmz.ui.mainWindow.centralWidget());
          dialog.lookup("verticalLayout").addWidget(widget);
+         if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
+
+            dialog.lookup("closeWindow").hide();
+         }
          PageLink[name].dialog = dialog;
       }
       PageLink[name].onClicked = func;
