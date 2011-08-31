@@ -274,8 +274,8 @@ mouseEvent = function (object, event) {
                      }
                      if (rect.width && rect.height) {
 
-//                        data.dialog.maximumSize(rect.width * 0.95, rect.height * 0.95);
-//                        data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
+                        data.dialog.maximumSize(rect.width * 0.95, rect.height * 0.95);
+                        data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
 //                        data.dialog.updateGeometry();
 //                        data.dialog.update();
 //                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
@@ -483,7 +483,8 @@ _exports.addPage = function (name, widget, func, onHome) {
       else if (widget.inherits("QDialog")) { PageLink[name].dialog = widget; }
       else {
 
-         dialog = dmz.ui.loader.load("WindowDialog.ui", dmz.ui.mainWindow.centralWidget());
+//         dialog = dmz.ui.loader.load("WindowDialog.ui", dmz.ui.mainWindow.centralWidget());
+         dialog = dmz.ui.loader.load("WindowDialog.ui"
          dialog.lookup("verticalLayout").addWidget(widget);
          if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
 
