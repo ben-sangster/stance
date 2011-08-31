@@ -127,7 +127,7 @@ dmz.util.defineConst(exports, "setupForumView", function (forumData) {
       if (content) {
 
          content.layout(_mainLayout);
-//         _mainLayout.addStretch(1);
+         _mainLayout.addStretch(1);
       }
 
       if (avatar) { avatar.pixmap(AvatarDefault); }
