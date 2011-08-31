@@ -283,6 +283,8 @@ mouseEvent = function (object, event) {
 //                           data.dialog.move(0, 0);
 //                        }
                      }
+                     data.dialog.hide();
+                     data.dialog.show();
                      data.dialog.open(self, function (value) {
 
                         if (data.highlight) { data.highlight.hide(); }
