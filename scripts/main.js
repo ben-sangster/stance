@@ -275,15 +275,12 @@ mouseEvent = function (object, event) {
                      if (rect.width && rect.height) {
 
                         data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
+                        data.dialog.updateGeometry();
                      }
-                     dmz.time.setTimer(self, function () {
+                     data.dialog.open(self, function (value) {
 
-                        data.dialog.update();
-                        data.dialog.open(self, function (value) {
-
-                           if (data.highlight) { data.highlight.hide(); }
-                           if (data.onHome) { data.onHome(value); }
-                        });
+                        if (data.highlight) { data.highlight.hide(); }
+                        if (data.onHome) { data.onHome(value); }
                      });
                   });
                }
