@@ -274,8 +274,8 @@ mouseEvent = function (object, event) {
                      }
                      if (rect.width && rect.height) {
 
-                        data.dialog.maximumSize(rect.width * 0.95, rect.height * 0.95);
-                        data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
+//                        data.dialog.maximumSize(rect.width * 0.95, rect.height * 0.95);
+//                        data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
 //                        data.dialog.updateGeometry();
 //                        data.dialog.update();
 //                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
@@ -283,8 +283,6 @@ mouseEvent = function (object, event) {
 //                           data.dialog.move(0, 0);
 //                        }
                      }
-                     data.dialog.hide();
-                     data.dialog.show();
                      data.dialog.open(self, function (value) {
 
                         if (data.highlight) { data.highlight.hide(); }
