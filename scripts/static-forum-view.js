@@ -113,7 +113,7 @@ dmz.util.defineConst(exports, "setupForumView", function (forumData) {
    if (_Self && _PostType && _CommentType && _ForumType && _ParentLinkHandle &&
       _CanReplyTo && _PostBlocked && _Highlight && _TimeHandle) {
 
-      _view = dmz.ui.loader.load("ForumView.ui");
+      _view = forumData.widget || dmz.ui.loader.load("ForumView.ui");
       retData.widget = _view;
       _scrollArea = _view.lookup("scrollArea");
       _mainLayout = dmz.ui.layout.createVBoxLayout();

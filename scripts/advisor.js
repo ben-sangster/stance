@@ -164,7 +164,7 @@ createAdvisorWindow = function (windowStr, idx) {
 
 //   data.task = { widget: dmz.ui.loader.load("CommentAdd.ui") };
    data.task = { widget: data.window.lookup("taskFrame") };
-   data.task.avatar = data.task.widget.lookup("avatarLabel");
+   data.task.avatar = data.task.widget.lookup("avatarLabel_task");
    data.task.text = data.task.widget.lookup("textEdit");
    data.task.submit = data.task.widget.lookup("submitButton");
    data.task.widget.lookup("cancelButton").hide();
@@ -178,12 +178,13 @@ createAdvisorWindow = function (windowStr, idx) {
       , MAX_TASK_STR_LEN
       , data.task.text
       , data.task.submit
-      , data.task.widget.lookup("currentCharAmt")
-      , data.task.widget.lookup("totalCharAmt")
+      , data.task.widget.lookup("currentCharAmt_task")
+      , data.task.widget.lookup("totalCharAmt_task")
       );
 
    data.question = dmz.forumView.setupForumView(
       { self: self
+      , widget: data.window.lookup("forumWidget")
       , postType: dmz.stance.QuestionType
       , commentType: dmz.stance.AnswerType
       , timeHandle: AdvisorTimeHandles[idx]
