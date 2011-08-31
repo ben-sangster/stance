@@ -104,6 +104,8 @@ var dmz =
    , setGItemPos
    , getConfigFont
 
+   , openDialog
+
    // API
    , _exports = {}
    ;
@@ -242,6 +244,15 @@ updateGraphicsForGroup = function (groupHandle) {
    }
 };
 
+openDialog = function (data) {
+
+                        data.dialog.open(self, function (value) {
+
+                           if (data.highlight) { data.highlight.hide(); }
+                           if (data.onHome) { data.onHome(value); }
+                        });
+};
+
 mouseEvent = function (object, event) {
 
    var type = event.type()
@@ -289,14 +300,15 @@ mouseEvent = function (object, event) {
 //                        if (data.onHome) { data.onHome(value); }
 //                     });
 
-                     dmz.time.setTimer(self, function () {
+//                     dmz.time.setTimer(self, function () {
 
-                        data.dialog.open(self, function (value) {
+//                        data.dialog.open(self, function (value) {
 
-                           if (data.highlight) { data.highlight.hide(); }
-                           if (data.onHome) { data.onHome(value); }
-                        });
-                     });
+//                           if (data.highlight) { data.highlight.hide(); }
+//                           if (data.onHome) { data.onHome(value); }
+//                        });
+//                     });
+                     dmz.time.setTimer(self, function () { openDialog(data); });
                   });
                }
                else if (data.widget && stackedWidget) {
