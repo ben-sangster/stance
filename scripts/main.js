@@ -275,15 +275,20 @@ mouseEvent = function (object, event) {
                      if (rect.width && rect.height) {
 
                         data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
-                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
+                        data.dialog.updateGeometry();
+                        data.dialog.update();
+//                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
 
-                           data.dialog.move(0, 0);
-                        }
+//                           data.dialog.move(0, 0);
+//                        }
                      }
-                     data.dialog.open(self, function (value) {
+                     dmz.time.setTimer(self, function () {
 
-                        if (data.highlight) { data.highlight.hide(); }
-                        if (data.onHome) { data.onHome(value); }
+                        data.dialog.open(self, function (value) {
+
+                           if (data.highlight) { data.highlight.hide(); }
+                           if (data.onHome) { data.onHome(value); }
+                        });
                      });
                   });
                }
