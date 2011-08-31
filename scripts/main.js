@@ -479,17 +479,6 @@ setupMainWindow = function () {
             else { oldSize = LastGViewSize; }
             LastGViewSize = size;
             mainGView.scale(size.width / oldSize.width, size.height / oldSize.height);
-
-            rect = main.rect();
-            Object.keys(PageLink).forEach(function (key) {
-
-               var data = PageLink[key];
-               if (data && data.dialog && rect.width && rect.height) {
-
-                  data.dialog.maximumSize(rect.width * 0.95, rect.height * 0.95);
-                  data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
-               }
-            });
          }
       });
    }
