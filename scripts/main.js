@@ -275,7 +275,10 @@ mouseEvent = function (object, event) {
                      if (rect.width && rect.height) {
 
                         data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
-                        data.dialog.updateGeometry();
+                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
+
+                           data.dialog.move(0, 0);
+                        }
                      }
                      data.dialog.open(self, function (value) {
 
