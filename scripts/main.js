@@ -275,8 +275,10 @@ mouseEvent = function (object, event) {
                      if (rect.width && rect.height) {
 
                         data.dialog.fixedSize(rect.width * 0.95, rect.height * 0.95);
-                        data.dialog.updateGeometry();
-                        data.dialog.update();
+//                        data.dialog.updateGeometry();
+//                        data.dialog.update();
+                        data.widget.update();
+                        data.widget.updateGeometry();
 //                        if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
 
 //                           data.dialog.move(0, 0);
@@ -487,6 +489,7 @@ _exports.addPage = function (name, widget, func, onHome) {
       PageLink[name].onClicked = func;
       PageLink[name].onHome = onHome;
       PageLink[name].pixmap.cursor(dmz.ui.consts.PointingHandCursor);
+      PageLink[name].widget = widget;
    }
    else { self.log.error(name, widget, PageLink[name]); }
 };
