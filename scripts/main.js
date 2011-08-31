@@ -484,7 +484,7 @@ _exports.addPage = function (name, widget, func, onHome) {
       else {
 
 //         dialog = dmz.ui.loader.load("WindowDialog.ui", dmz.ui.mainWindow.centralWidget());
-         dialog = dmz.ui.loader.load("WindowDialog.ui"
+         dialog = dmz.ui.loader.load("WindowDialog.ui");
          dialog.lookup("verticalLayout").addWidget(widget);
          if (dmz.defs.OperatingSystem === dmz.defs.Win32) {
 
