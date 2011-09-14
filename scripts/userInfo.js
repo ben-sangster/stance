@@ -3,6 +3,8 @@ require("datejs/date");
 var dmz =
    { ui:
       { button: require("dmz/ui/button")
+      , consts: require("dmz/ui/consts")
+      , mainWindow: require("dmz/ui/mainWindow")
       , spinBox: require("dmz/ui/spinBox")
       , graph: require("dmz/ui/graph")
       , layout: require("dmz/ui/layout")
@@ -11,6 +13,7 @@ var dmz =
       , textEdit: require("dmz/ui/textEdit")
       , widget: require("dmz/ui/widget")
       , scrollArea: require("dmz/ui/scrollArea")
+      , tabWidget: require("dmz/ui/tabWidget")
       , webview: require("dmz/ui/webView")
       }
    , stance: require("stanceConst")
@@ -32,9 +35,15 @@ var dmz =
    , ShowStudentsMessage = dmz.message.create("showStudentsWindow")
 
    // UI
-   , userInfoWidget = dmz.ui.loader.load("UserInfoWidget.ui")
-   , groupTabs = userInfoWidget.lookup("groupTabs")
+   , groupTabs = dmz.ui.tabWidget.create()
+   , dock
+   , DockName = "userInfo"
    , userStatisticsWidget = dmz.ui.webview.create("userStatistics")
+   , GraphicsScene = dmz.ui.graph.createScene()
+   , GraphicsView = dmz.ui.graph.createView(GraphicsScene)
+   , GSceneItems = []
+
+
 
    // Functions
    , toDate = dmz.util.timeStampToDate
@@ -51,12 +60,120 @@ var dmz =
    , createUserWidget
    , createGroupTabs
    , init
+
+   , setPieChart
+   , createPieChart
    ;
+
+self.shutdown = function () { dmz.ui.mainWindow.removeDock(DockName); }
+
+(function () {
+
+   GraphicsView.alignment (dmz.ui.consts.AlignLeft | dmz.ui.consts.AlignTop);
+   GraphicsView.show();
+}());
+
+// data = [{ amt: #, brush: dmz.ui.graph.createBrush, label: ""}]
+createPieChart = function (data, labelFnc, scene, zero) {
+
+   var x = zero ? (zero.x || 0) : 0
+     , y = zero ? (zero.y || 0) : 0
+     , graphLabel
+     , startAngle
+     , items = []
+     , total = 0
+     ;
+
+   if (data && scene) {
+
+      data.forEach(function (item) { total += (item.amt || 0); });
+      graphLabel = scene.addText(labelFnc(total));
+      graphLabel.pos(20 + x, y);
+      startAngle = 0
+      data.forEach(function (item, index){
+
+         var spanAngle = item.amt / total * 360 * 16
+           , ellipse = scene.addEllipse(x + 30, y + 30, 200, 200, startAngle, spanAngle, 0, item.brush)
+           , legendBox = dmz.ui.graph.createRectItem(0, 0, 15, 15, graphLabel)
+           , legendLabel
+           ;
+
+         legendLabel =
+            dmz.ui.graph.createTextItem
+               ( item.label + " - " + item.amt + " ("+ (Math.round(item.amt / total * 10000)/100) + "%)"
+               , legendBox);
+
+         legendBox.pos(250, index * 20 + 20);
+         legendBox.brush(item.brush);
+         legendLabel.pos(20, -5);
+         items.push(ellipse);
+         items.push(legendLabel);
+         startAngle += spanAngle;
+      });
+
+      items.push(graphLabel);
+   }
+
+   return items;
+};
+
+setPieChart = function (userHandle) {
+
+   var item = Users[userHandle]
+     , data
+     , startAngle = 0
+     , spanAngle
+     , total
+     , legend = []
+     , passBrush
+     , failBrush
+     , deniedBrush
+     , pendingBrush
+     , activeBrush
+     , label
+     , pct
+     ;
+
+   if (item) {
+
+      passBrush = dmz.ui.graph.createBrush({ r: 70/255, b: 70/255, g: 70/255 });
+      failBrush = dmz.ui.graph.createBrush({ r: 70/255, b: 240/255, g: 70/255 });
+      deniedBrush = dmz.ui.graph.createBrush({ r: 240/255, b: 70/255, g: 70/255 });
+      pendingBrush = dmz.ui.graph.createBrush({ r: 240/255, b: 240/255, g: 240/255 });
+      activeBrush = dmz.ui.graph.createBrush({ r: 240/255, b: 240/255, g: 70/255 });
+
+      //temp clear -- shouldn't need later
+      while (GSceneItems.length) { GraphicsScene.removeItem(GSceneItems.pop()); }
+
+      legend.push({ amt: item.votesPassed, brush: passBrush, label: "Passed" });
+      legend.push({ amt: item.votesFailed, brush: failBrush, label: "Failed" });
+      legend.push({ amt: item.votesDenied, brush: deniedBrush, label: "Denied" });
+      legend.push({ amt: item.votesActive, brush: activeBrush, label: "Active" });
+      legend.push({ amt: item.votesPending, brush: pendingBrush, label: "Pending" });
+
+      GSceneItems.concat(
+         createPieChart
+            ( legend
+            , function (total) { return "Vote Breakdown: (Total Completed Votes: " + total + ")"; }
+            , GraphicsScene
+            ));
+   }
+};
 
 ShowStudentsMessage.subscribe(self, function () {
 
    createGroupTabs();
-   userInfoWidget.show();
+   if (!dock) {
+
+      dock =
+         dmz.ui.mainWindow.createDock
+            ( DockName
+            , { area: dmz.ui.consts.RightToolBarArea, visible: false, floating: true }
+            , groupTabs
+            );
+   }
+
+   dock.show();
 });
 
 setUserPictureLabel = function (userHandle) {
@@ -66,8 +183,7 @@ setUserPictureLabel = function (userHandle) {
    if (Users[userHandle]) {
 
       pic = dmz.ui.graph.createPixmap(dmz.resources.findFile(Users[userHandle].picture));
-      pic = pic.scaled(50, 50);
-      Users[userHandle].ui.userPictureLabel.pixmap(pic);
+      Users[userHandle].ui.userPictureLabel.pixmap(pic.scaled(50, 50));
    }
 };
 
@@ -90,7 +206,7 @@ setVotesSeenLabel = function (userHandle) {
          var createdTime = 0
            , approvedTime = 0
            , endedTime = 0
-           , greaterThanUserTime = false;
+           , greaterThanUserTime = false
            ;
 
          createdTime = dmz.object.timeStamp(voteHandle, dmz.stance.CreatedAtServerTimeHandle);
@@ -257,30 +373,21 @@ initializeUserVoteData = function () {
    });
    voteHandles.forEach(function (voteHandle) {
 
+      var item;
       voteState = dmz.object.scalar(voteHandle, dmz.stance.VoteState);
       tempHandles = dmz.object.subLinks(voteHandle, dmz.stance.CreatedByHandle);
       if (tempHandles && Users[tempHandles[0]]) {
 
          tempUserHandle = tempHandles[0];
-         if (voteState === 0) {
+         item = Users[tempUserHandle];
+         switch (voteState) {
 
-            Users[tempUserHandle].votesPending += 1;
-         }
-         else if (voteState === 1) {
-
-            Users[tempUserHandle].votesDenied += 1;
-         }
-         else if (voteState === 2) {
-
-            Users[tempUserHandle].votesActive += 1;
-         }
-         else if (voteState === 3) {
-
-            Users[tempUserHandle].votesPassed += 1;
-         }
-         else if (voteState === 4) {
-
-            Users[tempUserHandle].votesFailed += 1;
+         case dmz.stance.VOTE_APPROVAL_PENDING: item.votesPending += 1; break;
+         case dmz.stance.VOTE_DENIED: item.votesDenied += 1; break;
+         case dmz.stance.VOTE_ACTIVE: item.votesActive += 1; break;
+         case dmz.stance.VOTE_YES: item.votesPassed += 1; break;
+         case dmz.stance.VOTE_NO: item.votesFailed += 1; break;
+         default: self.log.error ("Vote error state:", voteHandle); break;
          }
          Users[tempUserHandle].totalVotes += 1;
       }
@@ -292,6 +399,8 @@ setStatisticsHtml = function (userHandle) {
    var html;
 
    initializeUserVoteData();
+
+   setPieChart(userHandle);
 
    self.log.error(Users[userHandle].votesPending, Users[userHandle].votesDenied, Users[userHandle].votesActive);
    // Page opening
