@@ -294,7 +294,7 @@ mouseEvent = function (object, event) {
                         }
                      }
 
-                     dialogOpen = true;
+                     dialogOpen = data.dialog;
                      data.dialog.open(self, function (value) {
 
                         if (data.highlight) { data.highlight.hide(); }
@@ -670,7 +670,7 @@ displayNewAchievements = function () {
       achievementText.text("You have unlocked the " + obj.name + " achievement.");
       file = dmz.resources.findFile(obj.image) || dmz.resources.findFile(DefaultAchievement);
       achievementPic.pixmap(dmz.ui.graph.createPixmap(file).scaled(100, 100));
-      dialogOpen = true;
+      dialogOpen = achievementDialog;
       achievementDialog.open(self, function () {
 
          dialogOpen = false;
@@ -692,5 +692,12 @@ dmz.stance.ACHIEVEMENT_MESSAGE.subscribe(self, function (data) {
       if (!dialogOpen) { displayNewAchievements(); }
    }
 });
+
+_exports.closeDialog = function () {
+
+	if (dialogOpen) {
+		dialogOpen.reject();
+	}
+};
 
 dmz.module.publish(self, _exports);

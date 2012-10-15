@@ -39,6 +39,29 @@
 
 <hr noshade size='1'>
 -->
+<h2>Version 1.4.0 (2012-10-13)</h2>
+
+<h3>New Features</h3>
+<ul>
+   <li>STANCE will now display a more helpful message when its connection to the database has been lost.</li>
+</ul>
+
+<h3>Changes</h3>
+<ul>
+   <li>A timed script has been added which detects if a post, comment, question, or answer has not had its timestamp set after 7 minutes, at which point it notifies the user that there is a problem and suggests an app restart.</li>
+   <li>Connection error notification messages will now close the currently active window before displaying, in order to ensure that they are seen by the user.</li>
+</ul>
+
+<h3>Bugs fixed</h3>
+<ul>
+   <li>Losing network connection while logged in will no longer cause the system to lock if the user does not have a cache.</li>
+   <li>Losing network connection while logged in will no longer cause the system to attempt to load the cache a second time.</li>
+   <li>Fixed a bug in calculations for the Strategist Achievement that could cause the vote script to crash due to a race condition.</li>
+</ul>
+
+<hr noshade size='1'>
+
+
 <h2>Version 1.3.8 (2012-08-18)</h2>
 
 <h3>New Features</h3>

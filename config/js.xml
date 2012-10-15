@@ -28,6 +28,7 @@
    <instance name="login"/>
    <instance name="advisor"/>
    <instance name="vote"/>
+   <instance name="postTimeChecker"/>
 <!--   <instance name="fix"/>-->
    <instance name="userInfo"/>
    <instance name="media"/>

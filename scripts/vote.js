@@ -90,21 +90,22 @@ var dmz =
 
 checkForStrategistAchievement = function (groupHandle) {
 
-   if (Groups[groupHandle].yesVotes.length >= 9) {
+	var votes = (Groups[groupHandle] || { yesVotes: [] }).yesVotes.length;
+   if (votes >= 9) {
 
       Groups[groupHandle].users.forEach(function (userHandle) {
 
          dmz.stance.unlockAchievement(userHandle, dmz.stance.StrategistThreeAchievement);
       });
    }
-   else if (Groups[groupHandle].yesVotes.length >= 6) {
+   else if (votes >= 6) {
 
       Groups[groupHandle].users.forEach(function (userHandle) {
 
          dmz.stance.unlockAchievement(userHandle, dmz.stance.StrategistTwoAchievement);
       });
    }
-   else if (Groups[groupHandle].yesVotes.length >= 3) {
+   else if (votes >= 3) {
 
       Groups[groupHandle].users.forEach(function (userHandle) {
 
@@ -1476,6 +1477,7 @@ function (linkHandle, attrHandle, supHandle, subHandle) {
             insertIntoVotes(VoteObjects[supHandle]);
          });
       }
+      checkForStrategistAchievement(subHandle);
    }
 });
 

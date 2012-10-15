@@ -15,26 +15,6 @@ var dmz =
           , messageBox: require("dmz/ui/messageBox")
           }
        }
-    // UI
-    , disabledDialog =
-         dmz.ui.messageBox.create(
-            { type: dmz.ui.messageBox.Warning
-            , text: "Your account has been disabled. Please contact your professor to get it reenabled. STANCE will now exit."
-            , standardButtons: [dmz.ui.messageBox.Ok]
-            , defaultButton: dmz.ui.messageBox.Ok
-            }
-            , dmz.ui.mainWindow.centralWidget()
-            )
-    , failedDialog =
-         dmz.ui.messageBox.create(
-            { type: dmz.ui.messageBox.Warning
-            , text: "Unable to connect to game server!"
-            , informativeText: "You are now in offline use mode!"
-            , standardButtons: [dmz.ui.messageBox.Ok]
-            , defaultButton: dmz.ui.messageBox.Ok
-            }
-            , dmz.ui.mainWindow.centralWidget()
-            )
 
     // Constants
     , LoginSuccessMessage = dmz.message.create("Login_Success_Message")
@@ -44,6 +24,7 @@ var dmz =
     , TimeStampAttr = dmz.defs.createNamedHandle("time-stamp")
 
     // Variables
+    , MainModule = false
     , _window = dmz.ui.mainWindow.window()
     , _title = _window.title()
     , _gameHandle
@@ -107,7 +88,23 @@ _activateUser = function (name) {
             }
             if (dmz.object.flag(_userHandle, dmz.stance.ConsecutiveLoginsHandle)) { dmz.stance.unlockAchievement(_userHandle, dmz.stance.FrequentFlyerAchievement); }
          }
-         else { disabledDialog.open(self, function () { dmz.sys.requestExit(); }); }
+         else { 
+			
+			if (MainModule) {
+				MainModule.closeDialog();
+			}
+         
+    	    dmz.time.setTimer(self, 0.5, function () {
+	        	dmz.ui.messageBox.create(
+        		   	{ type: dmz.ui.messageBox.Warning
+        	    	, text: "Your account has been disabled. Please contact your professor to get it reenabled. STANCE will now exit."
+    	        	, standardButtons: [dmz.ui.messageBox.Ok]
+		            , defaultButton: dmz.ui.messageBox.Ok
+    	        	}
+        		    , dmz.ui.mainWindow.centralWidget()
+    	    	    ).open(self, function () { dmz.sys.requestExit(); }); 
+	        });
+         }
       }
    }
 };
@@ -159,8 +156,34 @@ LoginSkippedMessage.subscribe(self, function () {
 });
 
 LoginErrorMessage.subscribe(self, function () {
-
-   failedDialog.open(self, function () {});
+		
+	if (MainModule) {
+		MainModule.closeDialog();
+	}
+	
+	dmz.time.setTimer(self, 0.5, function () {
+		if (_hasLoggedIn) { 
+			dmz.ui.messageBox.create(
+	            { type: dmz.ui.messageBox.Error
+            	, text: "Connection to the game server has been interrupted"
+        	    , informativeText: "New posts you have submitted that do not have timestamps may not have reached the server. In limited circumstances, this data could be lost. Please save any important such posts elsewhere and restart the application."
+    	        , standardButtons: [dmz.ui.messageBox.Ok]
+	            , defaultButton: dmz.ui.messageBox.Ok
+            	}
+        	    , dmz.ui.mainWindow.centralWidget()
+    	        ).open(self, function () {}); 
+		} else { 
+			dmz.ui.messageBox.create(
+            	{ type: dmz.ui.messageBox.Error
+	            , text: "Unable to connect to game server"
+    	        , informativeText: "This error could be due to a lack of internet connectivity, a restrictive firewall preventing your connection, or an issue with the game server. If it persists, please contact CHDS support."
+        	    , standardButtons: [dmz.ui.messageBox.Ok]
+            	, defaultButton: dmz.ui.messageBox.Ok
+	            } 
+    	        , dmz.ui.mainWindow.centralWidget()
+        	    ).open(self, function () {}); 
+	    }
+	});
 });
 
 LogoutMessage.subscribe(self, function () {
@@ -258,5 +281,13 @@ _setTitle = function (userHandle) {
          );
    }
 };
+
+dmz.module.subscribe(self, "main", function (Mode, module) {
+
+	if (Mode === dmz.module.Activate) {
+
+		MainModule = module;
+	}
+});
 
 ToggledMessage.subscribe(self, function (data) { _haveToggled = true; });
