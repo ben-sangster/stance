@@ -58,7 +58,7 @@
    <resource name="AvatarZambada5" file="avatar_zambada_5.png"/>
    <resource name="Jake" file="jake-50x50.png"/>
 <!-- ACHIEVEMENT ICONS -->
-   <resource name="Logged_In_Image" file="Logged_In_Image.jpg"/>
+   <resource name="Logged_In_Image" file="Logged_In_Image.png"/>
    <resource name="DTF_Achievement" file="STANCE_achievements7_Disturbance_in_the_Force.png"/>
    <resource name="Eff_Comm_Achievement" file="STANCE_achievements7_Effective_Communicator.png"/>
    <resource name="Eff_Interr_Achievement" file="STANCE_achievements7_Effective_Interrogator.png"/>
@@ -702,7 +702,7 @@
    <resource name="CBP_vote" file="CBP_vote.png">
       <loc x="933" y="368"/>
    </resource>
-   <resource name="CBP_background" file="CBP_main.jpg">
+   <resource name="CBP_background" file="CBP_main.png">
       <loc x="0" y="0"/>
    </resource>
    <resource name="CBP_rolodex" file="CBP_address.png">
@@ -710,21 +710,21 @@
    </resource>
    <resource name="CBP_adv0_alt" file="CBP_ad01_outreach.png"/>
    <resource name="CBP_adv1_alt" file="CBP_ad02_publicrelations.png"/>
-   <resource name="CBP_adv2_alt" file="CBP_ad03_borderpatrol.jpg"/>
+   <resource name="CBP_adv2_alt" file="CBP_ad03_borderpatrol.png"/>
    <resource name="CBP_adv3_alt" file="CBP_ad04_customs.png"/>
    <resource name="CBP_adv4_alt" file="CBP_ad05_infrastructure.png"/>
 <!-- LOBBYIST IMAGES -->
    <resource name="lob_0" file="lobbyist_avatar.png"/>
-   <resource name="lob_1" file="lobbyist_01.jpg"/>
-   <resource name="lob_2" file="lobbyist_02.jpg"/>
-   <resource name="lob_3" file="lobbyist_03.jpg"/>
-   <resource name="lob_4" file="lobbyist_04.jpg"/>
-   <resource name="lob_5" file="lobbyist_05.jpg"/>
-   <resource name="lob_6" file="lobbyist_06.jpg"/>
-   <resource name="lob_7" file="lobbyist_07.jpg"/>
-   <resource name="lob_8" file="lobbyist_08.jpg"/>
-   <resource name="lob_9" file="lobbyist_09.jpg"/>
-   <resource name="lob_10" file="lobbyist_10.jpg"/>
+   <resource name="lob_1" file="lobbyist_01.png"/>
+   <resource name="lob_2" file="lobbyist_02.png"/>
+   <resource name="lob_3" file="lobbyist_03.png"/>
+   <resource name="lob_4" file="lobbyist_04.png"/>
+   <resource name="lob_5" file="lobbyist_05.png"/>
+   <resource name="lob_6" file="lobbyist_06.png"/>
+   <resource name="lob_7" file="lobbyist_07.png"/>
+   <resource name="lob_8" file="lobbyist_08.png"/>
+   <resource name="lob_9" file="lobbyist_09.png"/>
+   <resource name="lob_10" file="lobbyist_10.png"/>
 </resource-map>
 </runtime>
 </dmz>
