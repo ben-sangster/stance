@@ -166,22 +166,3 @@ dmz.module.subscribe(self, "main", function (Mode, module) {
       }
    }
 });
-
-// Update clean databases for new data structures
-dmz.time.setTimer(self, 20, function () {
-
-   var objs = dmz.object.getObjects() || [];
-   objs = objs.filter(function (handle) {
-
-      return dmz.object.type(handle).isOfType(dmz.stance.GroupType) && !dmz.object.superLinks(handle, dmz.stance.HelpLink);
-   });
-   objs.forEach(function (group) {
-
-      var handle;
-      self.log.warn ("Adding Help Forum to:", dmz.stance.getDisplayName(group), dmz.object.superLinks(group, dmz.stance.HelpLink), !dmz.object.superLinks(group, dmz.stance.HelpLink));
-      handle = dmz.object.create(dmz.stance.HelpForumType);
-      dmz.object.text(handle, dmz.stance.NameHandle, dmz.stance.getDisplayName(group));
-      dmz.object.activate(handle);
-      dmz.object.link(dmz.stance.HelpLink, handle, group);
-   });
-});
