@@ -137,8 +137,8 @@ changeState = function (state) {
 
       CurrentMap = PdfItems;
       CurrentArray = PdfArray;
-      pdfUrlLineEdit.hide();
-      pdfLinkLabel.hide();
+      pdfUrlLineEdit.show();
+      pdfLinkLabel.show();
       addMediaButton.text("Add PDF Link");
    }
    else if (state === "Memo") {
