@@ -66,6 +66,12 @@ _activateUser = function (name) {
 
             dmz.object.flag(handle, dmz.object.HILAttribute, true);
             //dmz.object.flag(_userHandle, dmz.stance.UpdateLastLoginTimeHandle, true);
+            if (lastLogin) {
+
+              dmz.object.timeStamp(handle, dmz.stance.LastLoginTimeHandle, lastLogin);
+              self.log.info("Setting last login time of " + name + " to " + lastLogin);
+              lastLogin = 0;
+            }
             dmz.object.timeStamp(_userHandle, dmz.stance.LastPingTimeHandle, 0);
             if (!_hasLoggedIn && !_loginSkipped) {
 
@@ -254,6 +260,8 @@ dmz.object.flag.observe(self, dmz.object.HILAttribute, function (handle, attr, v
       if (lastLogin) {
       	
       	dmz.object.timeStamp(handle, dmz.stance.LastLoginTimeHandle, lastLogin);
+        self.log.info("Setting last login time of " + name + " to " + lastLogin);
+        lastLogin = 0;
       }
    }
 });

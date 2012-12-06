@@ -125,45 +125,48 @@ setButtonText = function (userHandle) {
 
    var THIRTY_SIX_HOURS = 129600
      , SIX_HOURS = 21600
+     , lastPingDelta
+     , validUser = (Users[userHandle] && Users[userHandle].ui && Users[userHandle].ui.pingUserButton)
+     , hilIsLimited = false
+     , hilIsUnlimited = false
      ;
 
-   if (Users[userHandle] && Users[hil] && Users[userHandle].ui && Users[userHandle].ui.pingUserButton &&
-      (Users[userHandle].lastLogin !== undefined) && (Users[userHandle].lastPing !== undefined) &&
-      (Users[hil].lastLogin !== undefined)) {
+   if (validUser) {
 
-      if ((Users[hil].lastLogin - Users[userHandle].lastLogin > THIRTY_SIX_HOURS) &&
-         (Users[userHandle].lastPing === 0) &&
-         ((dmz.stance.isAllowed(hil, dmz.stance.LimitedPingFlag)) || (dmz.stance.isAllowed(hil, dmz.stance.UnlimitedPingFlag)))) {
+       if (Users[hil] && (Users[userHandle].lastLogin !== undefined) && (Users[userHandle].lastPing !== undefined) &&
+               ((Users[hil].lastLogin - Users[userHandle].lastLogin) > THIRTY_SIX_HOURS)) {
 
-         Users[userHandle].ui.pingUserButton.enabled(true);
-         Users[userHandle].ui.pingUserButton.text("Ping User");
-      }
-      else if ((Users[hil].lastLogin - Users[userHandle].lastLogin > THIRTY_SIX_HOURS) &&
-         (Users[hil].lastLogin - Users[userHandle].lastPing > SIX_HOURS) &&
-         dmz.stance.isAllowed(hil, dmz.stance.LimitedPingFlag)) {
+           lastPingDelta = Users[hil].lastLogin - Users[userHandle].lastPing;
+           hilIsLimited = dmz.stance.isAllowed(hil, dmz.stance.LimitedPingFlag);
+           hilIsUnlimited = dmz.stance.isAllowed(hil, dmz.stance.UnlimitedPingFlag);
 
-         Users[userHandle].ui.pingUserButton.enabled(true);
-         Users[userHandle].ui.pingUserButton.text("Ping User Again");
-      }
-      else if ((Users[hil].lastLogin - Users[userHandle].lastLogin > THIRTY_SIX_HOURS) &&
-         dmz.stance.isAllowed(hil, dmz.stance.UnlimitedPingFlag)) {
+           if ((Users[userHandle].lastPing === 0) && (hilIsLimited || hilIsUnlimited)) {
 
-         Users[userHandle].ui.pingUserButton.enabled(true);
-         Users[userHandle].ui.pingUserButton.text("Ping User Again");
-      }
-      else if ((Users[hil].lastLogin - Users[userHandle].lastLogin > THIRTY_SIX_HOURS) &&
-         ((Users[hil].lastLogin - Users[userHandle].lastPing >= 0)) &&
-         (Users[hil].lastLogin - Users[userHandle].lastPing < SIX_HOURS) &&
-         dmz.stance.isAllowed(hil, dmz.stance.LimitedPingFlag)) {
+              Users[userHandle].ui.pingUserButton.enabled(true);
+              Users[userHandle].ui.pingUserButton.text("Ping User");
+           }
+           else if (hilIsUnlimited || ((lastPingDelta > SIX_HOURS) && hilIsLimited)) {
 
-         Users[userHandle].ui.pingUserButton.enabled(false);
-         Users[userHandle].ui.pingUserButton.text("Ping User Again");
-      }
-      else {
+              Users[userHandle].ui.pingUserButton.enabled(true);
+              Users[userHandle].ui.pingUserButton.text("Ping User Again");
+           }
+           else if (lastPingDelta >= 0 && lastPingDelta < SIX_HOURS && hilIsLimited) {
 
-         Users[userHandle].ui.pingUserButton.enabled(false);
-         Users[userHandle].ui.pingUserButton.text("Ping User");
-      }
+              Users[userHandle].ui.pingUserButton.enabled(false);
+              Users[userHandle].ui.pingUserButton.text("Ping User Again");
+           }
+           else {
+
+              Users[userHandle].ui.pingUserButton.enabled(false);
+              Users[userHandle].ui.pingUserButton.text("Ping User");
+           }
+
+       }
+       else {
+
+           Users[userHandle].ui.pingUserButton.enabled(false);
+           Users[userHandle].ui.pingUserButton.text("Ping User");
+       }
    }
 };
 

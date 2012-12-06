@@ -55,6 +55,8 @@
 <h3>Bugs fixed</h3>
 <ul>
    <li>Removed database 'fix' code from several scripts that is unnecessary with the newest set of clean database data.</li>
+   <li>Fixed a race condition in login code which could, in limited circumstances, prevent last login time from being updated.</li>
+   <li>Modified ping code to more carefully prevent users from being pinged unnecessarily.</li>
 </ul>
 
 <hr noshade size='1'>
