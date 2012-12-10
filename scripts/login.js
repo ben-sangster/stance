@@ -65,7 +65,7 @@ _activateUser = function (name) {
          if (dmz.object.flag(handle, dmz.stance.ActiveHandle)) {
 
             dmz.object.flag(handle, dmz.object.HILAttribute, true);
-            //dmz.object.flag(_userHandle, dmz.stance.UpdateLastLoginTimeHandle, true);
+            dmz.object.flag(_userHandle, dmz.stance.UpdateLastLoginTimeHandle, true);
             if (lastLogin) {
 
               dmz.object.timeStamp(handle, dmz.stance.LastLoginTimeHandle, lastLogin);
@@ -257,6 +257,7 @@ dmz.object.flag.observe(self, dmz.object.HILAttribute, function (handle, attr, v
       name = dmz.stance.getDisplayName(_userHandle);
       _setTitle(_userHandle);
       self.log.info("User identified: " + name);
+      dmz.object.flag(_userHandle, dmz.stance.UpdateLastLoginTimeHandle, true);
       if (lastLogin) {
       	
       	dmz.object.timeStamp(handle, dmz.stance.LastLoginTimeHandle, lastLogin);
